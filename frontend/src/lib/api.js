@@ -1,25 +1,34 @@
 const BASE_URL = "/api/v1";
 
+const handleResponse = (res) => {
+  if (res.status === 429) {
+    const error = new Error("Rate limit exceeded");
+    error.status = 429;
+    throw error;
+  }
+  return res.json();
+};
+
 export const api = {
-    get: (endpoint) =>
-    fetch(`${BASE_URL}${endpoint}`).then((res) => res.json()),
+  get: (endpoint) =>
+    fetch(`${BASE_URL}${endpoint}`).then(handleResponse),
 
-    post: (endpoint, data) =>
+  post: (endpoint, data) =>
     fetch(`${BASE_URL}${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    }).then((res) => res.json()),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then(handleResponse),
 
-    patch: (endpoint, data) =>
+  patch: (endpoint, data) =>
     fetch(`${BASE_URL}${endpoint}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    }).then((res) => res.json()),
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then(handleResponse),
 
-    delete: (endpoint) =>
+  delete: (endpoint) =>
     fetch(`${BASE_URL}${endpoint}`, {
-        method: "DELETE",
-    }).then((res) => res.json()),
-}
+      method: "DELETE",
+    }).then(handleResponse),
+};
