@@ -19,9 +19,11 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json());
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.CLIENT_URL 
+    : 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: true
 }));
 app.use(globalLimiter);
 
