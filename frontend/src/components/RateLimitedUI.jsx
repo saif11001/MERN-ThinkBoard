@@ -2,7 +2,7 @@ import { ZapIcon } from "lucide-react";
 
 const RateLimitedUI = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 mt-42">
+    <div className="max-w-6xl mx-auto px-4 py-8 mt-34">
       <div
         className="border rounded-lg shadow-md"
         style={{ backgroundColor: "#1F4959" + "1A", borderColor: "#1F4959" + "4D" }}
