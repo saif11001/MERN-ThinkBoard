@@ -45,7 +45,11 @@ const NoteCard = ({ note, onDelete }) => {
         <div className="flex items-center justify-between mt-auto pt-3"
           style={{ borderTop: "1px solid #5C7C8922" }}>
           <span className="text-xs" style={{ color: "#5C7C89" }}>
-            {note.createdAt ? new Date(note.createdAt).toLocaleDateString() : "No date"}
+            {note.createdAt ? new Date(note.createdAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            }) : "No date"}
           </span>
 
           <div className="flex gap-3">

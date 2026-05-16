@@ -142,7 +142,11 @@ const NoteDetailsPage = () => {
           {/* Footer */}
           <div className="flex items-center justify-between">
             <span className="text-xs" style={{ color: "#5C7C89" }}>
-              {new Date(note.createdAt).toLocaleDateString()}
+              {new Date(note.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })}
             </span>
             <div className="flex gap-3">
               {!isEditing && (
