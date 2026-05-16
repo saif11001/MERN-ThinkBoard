@@ -9,5 +9,4 @@ export const globalLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    skipSuccessfulRequests: true
 });
