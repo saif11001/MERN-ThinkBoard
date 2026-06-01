@@ -2,6 +2,6 @@
   "name": "mern-thinkboard",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm run build --prefix frontend && node backend/server.js"
+    "start": "npm install --prefix frontend && npm run build --prefix frontend && node backend/server.js"
   }
 }
