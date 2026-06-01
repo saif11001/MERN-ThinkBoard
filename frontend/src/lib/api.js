@@ -1,4 +1,4 @@
-const BASE_URL = "/api/v1";
+const BASE_URL = "https://mern-thinkboard.bonto.run/api/v1";
 
 const handleResponse = (res) => {
   if (res.status === 429) {
