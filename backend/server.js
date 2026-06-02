@@ -19,12 +19,14 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.CLIENT_URL 
-    : 'http://localhost:5173',
+  origin: [
+    process.env.CLIENT_URL,
+    "https://mern-think-board-tawny.vercel.app"
+  ],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true
 }));
+
 app.use(globalLimiter);
 
 app.use('/api/v1/note', noteRouter);
