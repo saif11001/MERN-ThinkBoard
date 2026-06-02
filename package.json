@@ -2,6 +2,6 @@
   "name": "mern-thinkboard",
   "version": "1.0.0",
   "scripts": {
-    "start": "yarn --cwd frontend install && yarn --cwd frontend build && node backend/server.js"
+    "start": "cp backend/package.json . && yarn install && node backend/server.js"
   }
 }
