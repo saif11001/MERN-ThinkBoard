@@ -1,34 +1,39 @@
-const BASE_URL = "https://saif-thinkboard.bonto.run/api/v1";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1";
 
-const handleResponse = (res) => {
-  if (res.status === 429) {
-    const error = new Error("Rate limit exceeded");
-    error.status = 429;
+const request = async (endpoint, options) => {
+  let res;
+  try {
+    res = await fetch(`${BASE_URL}${endpoint}`, options);
+  } catch {
+    const error = new Error("Cannot reach the server, check your connection and try again.");
+    error.status = 0;
     throw error;
   }
-  return res.json();
+
+  let body = null;
+  try {
+    body = await res.json();
+  } catch {
+  }
+
+  if (!res.ok) {
+    const error = new Error(body?.message || "Something went wrong, please try again.");
+    error.status = res.status;
+    throw error;
+  }
+
+  return body;
 };
 
+const jsonOptions = (method, data) => ({
+  method,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data),
+});
+
 export const api = {
-  get: (endpoint) =>
-    fetch(`${BASE_URL}${endpoint}`).then(handleResponse),
-
-  post: (endpoint, data) =>
-    fetch(`${BASE_URL}${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then(handleResponse),
-
-  patch: (endpoint, data) =>
-    fetch(`${BASE_URL}${endpoint}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then(handleResponse),
-
-  delete: (endpoint) =>
-    fetch(`${BASE_URL}${endpoint}`, {
-      method: "DELETE",
-    }).then(handleResponse),
+  get: (endpoint) => request(endpoint),
+  post: (endpoint, data) => request(endpoint, jsonOptions("POST", data)),
+  patch: (endpoint, data) => request(endpoint, jsonOptions("PATCH", data)),
+  delete: (endpoint) => request(endpoint, { method: "DELETE" }),
 };

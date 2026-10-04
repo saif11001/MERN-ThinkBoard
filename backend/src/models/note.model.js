@@ -4,11 +4,15 @@ const noteSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            trim: true,
+            maxlength: 100
         },
         content: {
             type: String,
-            required: true
+            required: true,
+            trim: true,
+            maxlength: 5000
         }
     },
     {

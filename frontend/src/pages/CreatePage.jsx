@@ -25,7 +25,11 @@ const CreatePage = () => {
         navigate("/");
       }
     } catch (err) {
-      setError("Something went wrong — please try again");
+      setError(
+        err.status === 429
+          ? "Too many requests, please wait a moment and try again."
+          : err.message
+      );
       console.error("Error creating note:", err);
     } finally {
       setLoading(false);
@@ -33,9 +37,9 @@ const CreatePage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center pt-18 px-10 pb-10">
+    <div className="flex items-center justify-center pt-18 px-4 sm:px-10 pb-10">
       <div
-        className="w-full max-w-lg rounded-2xl p-8"
+        className="w-full max-w-lg rounded-2xl p-6 sm:p-8"
         style={{
           backgroundColor: "#F5F5F0",
           boxShadow: "0 0 0 1px #5C7C8933, 0 4px 24px #5C7C8922",
@@ -46,7 +50,7 @@ const CreatePage = () => {
         </h2>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg text-sm"
+          <div role="alert" className="mb-4 p-3 rounded-lg text-sm"
             style={{ backgroundColor: "#CC333322", color: "#CC3333" }}>
             {error}
           </div>
@@ -55,15 +59,17 @@ const CreatePage = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium" style={{ color: "#1F4959" }}>
+            <label htmlFor="title" className="text-sm font-medium" style={{ color: "#1F4959" }}>
               Title
             </label>
             <input
+              id="title"
               type="text"
               placeholder="Note title..."
+              maxLength={100}
               value={title}
               onChange={e => { setTitle(e.target.value); setError(''); }}
-              className="input w-full"
+              className="input w-full text-base"
               style={{
                 backgroundColor: "#FFFFFF",
                 border: "1px solid #5C7C8944",
@@ -73,14 +79,16 @@ const CreatePage = () => {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium" style={{ color: "#1F4959" }}>
+            <label htmlFor="content" className="text-sm font-medium" style={{ color: "#1F4959" }}>
               Content
             </label>
             <textarea
+              id="content"
               placeholder="Write your note..."
+              maxLength={5000}
               value={content}
               onChange={e => { setContent(e.target.value); setError(''); }}
-              className="textarea w-full h-40"
+              className="textarea w-full h-40 text-base"
               style={{
                 backgroundColor: "#FFFFFF",
                 border: "1px solid #5C7C8944",

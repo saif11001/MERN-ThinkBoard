@@ -7,7 +7,7 @@ import Footer from "./components/Footer"
 
 function App() {
   return (
-    <div style={{ backgroundColor: "#5C7C89", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ backgroundColor: "#5C7C89", minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <Navbar />
       <main style={{ flex: 1 }}>
         <Routes>

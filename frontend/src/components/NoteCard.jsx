@@ -1,16 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 
 const NoteCard = ({ note, onDelete }) => {
 
+  const [deleting, setDeleting] = useState(false);
+
   const handleDelete = async () => {
+    if (!window.confirm("Delete this note? This cannot be undone.")) return;
+
     try {
+      setDeleting(true);
       const data = await api.delete(`/note/${note._id}`);
       if (data.success) {
         onDelete(note._id);
       }
     } catch (error) {
       console.error("Error deleting note:", error);
+      window.alert(error.message);
+      setDeleting(false);
     }
   };
 
@@ -56,7 +64,8 @@ const NoteCard = ({ note, onDelete }) => {
             <Link to={`/note/${note._id}`}
               className="transition-all duration-200 hover:scale-125"
               style={{ color: "#1F4959" }}
-              title="Edit">
+              title="Edit"
+              aria-label="Edit note">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -66,8 +75,10 @@ const NoteCard = ({ note, onDelete }) => {
 
             <button
               className="transition-all duration-200 hover:scale-125"
-              style={{ color: "#CC3333", background: "none", border: "none", cursor: "pointer" }}
+              style={{ color: "#CC3333", background: "none", border: "none", cursor: deleting ? "wait" : "pointer", opacity: deleting ? 0.5 : 1 }}
               title="Delete"
+              aria-label="Delete note"
+              disabled={deleting}
               onClick={handleDelete}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
