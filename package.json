@@ -1,7 +1,0 @@
-{
-  "name": "mern-thinkboard",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "cp backend/package.json . && yarn install && node backend/server.js"
-  }
-}
